@@ -5,7 +5,6 @@ interface ItemListProps {
     products: Product[];
 }
 const ItemList: React.FC<ItemListProps> = ({ products }) => {
-    console.log(products)
     return (
         <div>
             {products.map((product) => (

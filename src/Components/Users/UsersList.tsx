@@ -125,7 +125,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
     ];
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{width: '100%' }}>
             <DataGrid
                 rows={userRows}
                 columns={columns}

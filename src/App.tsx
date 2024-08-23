@@ -2,6 +2,7 @@ import './App.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import AppNavbar from './Components/Navbar/AppNavbar'
 import ItemListContainer from './Components/Products/ItemListContainer'
+import UsersListContainer from './Components/Users/UsersListContainer'
 
 function App() {
   
@@ -11,7 +12,8 @@ function App() {
       <BrowserRouter>
           <AppNavbar/>
             <Routes>
-              <Route path='/' element={<ItemListContainer/>}/>
+              <Route path='/products' element={<ItemListContainer/>}/>
+              <Route path='/dasboardUsers' element={<UsersListContainer/>} /> 
             </Routes>
         </BrowserRouter>
     </>
