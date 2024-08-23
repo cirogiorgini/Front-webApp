@@ -1,13 +1,19 @@
-
 import './App.css'
-import UsersListContainer from './Components/Users/UsersListContainer'
+import {BrowserRouter, Route, Routes} from "react-router-dom"
+import AppNavbar from './Components/Navbar/AppNavbar'
+import ItemListContainer from './Components/Products/ItemListContainer'
 
 function App() {
   
 
   return (
     <>
-      <UsersListContainer/>
+      <BrowserRouter>
+          <AppNavbar/>
+            <Routes>
+              <Route path='/' element={<ItemListContainer/>}/>
+            </Routes>
+        </BrowserRouter>
     </>
   )
 }
