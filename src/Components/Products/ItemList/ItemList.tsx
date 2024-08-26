@@ -1,4 +1,4 @@
-import { Product } from "../../models/Product.model"
+import { Product } from "../../../models/Product.model"
 import { Card, CardContent, Typography, CardMedia, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,7 @@ interface ItemListProps {
 }
 const ItemList: React.FC<ItemListProps> = ({ products }) => {
     return (
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', justifyContent:'center', gap: 2, flexWrap: 'wrap', paddingTop: '3.5rem' }}>
             {products.map((product) => (
                 <Card key={product._id} sx={{ width: 345 }}>
                     <CardMedia

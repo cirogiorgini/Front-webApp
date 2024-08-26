@@ -37,16 +37,15 @@ function ResponsiveAppBar() {
     return (
         <AppBar position="absolute">
             <Toolbar variant='dense'>
-                <Link to={'/home'}>
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
+                        component={ Link }
+                        to={'/home'}
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
+                            fontWeight: 200,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
@@ -54,7 +53,6 @@ function ResponsiveAppBar() {
                     >
                         Home
                     </Typography>
-                </Link>
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                     <IconButton

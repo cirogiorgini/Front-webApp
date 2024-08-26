@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Product } from "../../models/Product.model";
-import Loader from "../Loaders/Loader";
+import { Product } from "../../../models/Product.model";
+import Loader from "../../Loaders/Loader";
 import ItemList from "./ItemList";
 
 
@@ -35,7 +35,7 @@ const ItemListContainer: React.FC = () => {
     }
 
     if (error) {
-        return <div>Something wen't wrong! Please try again</div>
+        return <div>Algo ha salido mal, vuelvelo a intentar</div>
     }
 
     return (
