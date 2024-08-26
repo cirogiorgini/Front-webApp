@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface UsersListProps {
     users: User[];
@@ -114,8 +115,8 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
             width: 180,
             renderCell: (params) => (
                 <Button
-                    variant="contained"
-                    color="error"
+                    variant="outlined"
+                    startIcon={<DeleteIcon/>}
                     onClick={() => handleUserDelete(params.row.id)}
                 >
                     Delete User

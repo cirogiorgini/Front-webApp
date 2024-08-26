@@ -1,5 +1,6 @@
 import { Product } from "../../models/Product.model"
-import { Card, CardContent, Typography, CardMedia } from "@mui/material";
+import { Card, CardContent, Typography, CardMedia, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface ItemListProps {
     products: Product[];
@@ -23,6 +24,7 @@ const ItemList: React.FC<ItemListProps> = ({ products }) => {
                             <Typography variant="body2" color="text.secondary">
                                 {product.description}
                             </Typography>
+                            <Link to={`/item/${product._id}`} ><Button variant="outlined">Ver mas</Button></Link>
                         </CardContent>
                     </Card>
                 </div>

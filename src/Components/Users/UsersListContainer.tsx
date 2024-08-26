@@ -30,13 +30,14 @@ const UsersListContainer: React.FC = () => {
 
         fetchUsers();
     }, [])
+    
 
     if (isLoading) {
         return <Loader />
     }
 
     if (error) {
-        return <div>Something wen't wrong! Please try again</div>
+        return <div>Algo ha salido mal, vuelvelo a intentar</div>
     }
 
   return (

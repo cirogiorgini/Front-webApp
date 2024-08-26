@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
           <AppNavbar/>
             <Routes>
-              <Route path='/products' element={<ItemListContainer/>}/>
+              <Route path='/home' element={<ItemListContainer/>}/>
               <Route path='/dasboardUsers' element={<UsersListContainer/>} /> 
             </Routes>
         </BrowserRouter>
