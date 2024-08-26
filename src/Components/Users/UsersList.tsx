@@ -43,7 +43,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to change role');
+                throw new Error('Error al cambiar el rol del usuario');
             }
 
             setUserRows((prevRows) =>
@@ -58,7 +58,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
 
         } catch (error) {
             console.error(error);
-            setAlertMessage('Failed to change role');
+            setAlertMessage('Error al cambiar el rol del usuario');
             setAlertSeverity("error");
             setOpenSnackbar(true);
         }
@@ -71,7 +71,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to delete user');
+                throw new Error('Error al eliminar el usuario');
             }
 
             setUserRows((prevRows) =>
@@ -84,7 +84,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
 
         } catch (error) {
             console.error(error);
-            setAlertMessage('Failed to delete user');
+            setAlertMessage('Error al eliminar el usuario');
             setAlertSeverity("error");
             setOpenSnackbar(true);
         }
