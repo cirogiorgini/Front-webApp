@@ -6,6 +6,7 @@ import UsersListContainer from './Components/Users/UsersListContainer'
 import ItemDetailContainer from './Components/Products/ItemDetail/ItemDetailContainer'
 import Login from './Components/Login/Login'
 import Profile from './Components/Users/Profile/Profile'
+import PrivateRoute from './utils/PrivateRoute'
 
 function App() {
   
@@ -16,11 +17,13 @@ function App() {
       <BrowserRouter>
           <AppNavbar/>
             <Routes>
-              <Route path='/home' element={<ItemListContainer/>}/>
-              <Route path='/dasboardUsers' element={<UsersListContainer/>} /> 
-              <Route path='/item/:id' element={<ItemDetailContainer/>}/>
               <Route path='/login' element={<Login/>} />
-              <Route path='/profile/:id' element={<Profile/>}/>
+              <Route element={<PrivateRoute/>}>
+                <Route path='/home' element={<ItemListContainer/>}/>
+                <Route path='/dasboardUsers' element={<UsersListContainer/>} /> 
+                <Route path='/item/:id' element={<ItemDetailContainer/>}/>
+                <Route path='/profile/:id' element={<Profile/>}/>
+              </Route>
             </Routes>
         </BrowserRouter>
     </>
