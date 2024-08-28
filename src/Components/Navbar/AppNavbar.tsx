@@ -10,12 +10,25 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useUser } from '../../context/UserContext';
 
 const pages = ['Products'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = [
+    { name: 'Profile', path: '/profile/:id' },
+    { name: 'Cart', path: '/cart/:id' },
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Logout', path: '/logout' }
+];
 
-function ResponsiveAppBar() {
+const ResponsiveAppBar: React.FC = () => {
+    const location = useLocation();
+    const { user } = useUser();
+
+    if (location.pathname === '/login') {
+        return null;
+    }
+
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -34,25 +47,28 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
+    const userId = user ? user._id: ''; 
+    const cartId = user ? user.cart: '';
+
     return (
         <AppBar position="absolute">
             <Toolbar variant='dense'>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component={ Link }
-                        to={'/home'}
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontWeight: 200,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Home
-                    </Typography>
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to={'/home'}
+                    sx={{
+                        mr: 2,
+                        display: { xs: 'none', md: 'flex' },
+                        fontWeight: 200,
+                        letterSpacing: '.3rem',
+                        color: 'inherit',
+                        textDecoration: 'none',
+                    }}
+                >
+                    Home
+                </Typography>
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
@@ -93,8 +109,8 @@ function ResponsiveAppBar() {
                 <Typography
                     variant="h5"
                     noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
+                    component={Link}
+                    to={'/home'}
                     sx={{
                         mr: 2,
                         display: { xs: 'flex', md: 'none' },
@@ -106,7 +122,7 @@ function ResponsiveAppBar() {
                         textDecoration: 'none',
                     }}
                 >
-                    Inicio
+                    Home
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     {pages.map((page) => (
@@ -143,15 +159,28 @@ function ResponsiveAppBar() {
                         onClose={handleCloseUserMenu}
                     >
                         {settings.map((setting) => (
-                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center">{setting}</Typography>
+                            <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                <Typography
+                                    textAlign="center"
+                                    component={Link}
+                                    to={
+                                        setting.path === '/profile/:id'
+                                            ? `/profile/${userId}`
+                                            : setting.path === '/cart/:id'
+                                                ? `/cart/${cartId}`
+                                                : setting.path
+                                    }
+                                    sx={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                    {setting.name}
+                                </Typography>
                             </MenuItem>
                         ))}
                     </Menu>
                 </Box>
             </Toolbar>
-
         </AppBar>
     );
 }
+
 export default ResponsiveAppBar;

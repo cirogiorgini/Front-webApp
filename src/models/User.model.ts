@@ -5,5 +5,6 @@ export interface User{
     age: number,
     rol: string,
     email: string,
+    cart: string,
     last_conecction: Date,
 }
