@@ -1,10 +1,8 @@
-import React from 'react';
 import { Container, Box, Typography, TextField, Button, Checkbox, FormControlLabel, Divider, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import GithubButton from '../Github/GithubButton';
 
 interface LoginFormValues {
     email: string;
@@ -14,7 +12,7 @@ interface LoginFormValues {
 const Login: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>();
     const navigate = useNavigate();
-    const { setUser } = useUser();
+
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
@@ -24,20 +22,21 @@ const Login: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data),
+                credentials: 'include',
             });
-    
+
             if (response.ok) {
                 const userData = await response.json();
-                setUser(userData);
-                console.log(userData)
+                localStorage.setItem('user', JSON.stringify(userData));
+                navigate('/home');
+            } else {
+                console.error('Failed to log in');
             }
-    
-           navigate('/home')
+
         } catch (error) {
             console.error('Error during fetch:', error);
         }
     };
-    
 
     return (
         <Container component="main" maxWidth="xs">
@@ -62,14 +61,9 @@ const Login: React.FC = () => {
                     <Typography variant="body2" sx={{ color: 'white', marginBottom: 2 }}>
                         Welcome user, please sign in to continue
                     </Typography>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        startIcon={<GitHubIcon />}
-                        sx={{ marginBottom: 2, backgroundColor: '#424242' }}
-                    >
-                        Sign In With GitHub
-                    </Button>
+
+                    <GithubButton />
+
                     <Divider sx={{ width: '100%', marginBottom: 2, color: 'white' }}>or</Divider>
                     <TextField
                         margin="normal"

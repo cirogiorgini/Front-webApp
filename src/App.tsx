@@ -4,9 +4,10 @@ import AppNavbar from './Components/Navbar/AppNavbar'
 import ItemListContainer from './Components/Products/ItemList/ItemListContainer'
 import UsersListContainer from './Components/Users/UsersListContainer'
 import ItemDetailContainer from './Components/Products/ItemDetail/ItemDetailContainer'
-import Login from './Components/Login/Login'
+import Login from './Auth/Login/Login'
 import Profile from './Components/Users/Profile/Profile'
-import PrivateRoute from './utils/PrivateRoute'
+import Logout from './Auth/sessions/Logout'
+
 
 function App() {
   
@@ -18,12 +19,11 @@ function App() {
           <AppNavbar/>
             <Routes>
               <Route path='/login' element={<Login/>} />
-              <Route element={<PrivateRoute/>}>
                 <Route path='/home' element={<ItemListContainer/>}/>
                 <Route path='/dasboardUsers' element={<UsersListContainer/>} /> 
                 <Route path='/item/:id' element={<ItemDetailContainer/>}/>
                 <Route path='/profile/:id' element={<Profile/>}/>
-              </Route>
+                <Route path='/logout' element={<Logout/>}/>
             </Routes>
         </BrowserRouter>
     </>
