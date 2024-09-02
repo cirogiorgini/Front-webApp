@@ -12,14 +12,20 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useLocation } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import Cart from '../Cart/Cart';
+
 
 const pages = ['Products'];
 const settings = [
-    { name: 'Profile', path: '/profile/:id' },
-    { name: 'Cart', path: '/cart/:id' },
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Logout', path: '/logout' }
+    { name: 'Profile', path: '/profile/:id', icon: <PersonIcon /> },
+    { name: 'Cart', path: '/cart/:id', icon: <Cart/>  },
+    { name: 'Dashboard', path: '/dashboard',  icon: <SpaceDashboardIcon/> },
+    { name: 'Logout', path: '/logout', icon: <LogoutIcon /> }
 ];
+
 
 const ResponsiveAppBar: React.FC = () => {
     const location = useLocation();
@@ -47,8 +53,8 @@ const ResponsiveAppBar: React.FC = () => {
         setAnchorElUser(null);
     };
 
-    const userId = user ? user._id: ''; 
-    const cartId = user ? user.cart: '';
+    const userId = user ? user._id : '';
+    const cartId = user ? user.cart : '';
 
     return (
         <AppBar position="absolute">
@@ -69,7 +75,6 @@ const ResponsiveAppBar: React.FC = () => {
                 >
                     Home
                 </Typography>
-
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
                         size="large"
@@ -170,13 +175,19 @@ const ResponsiveAppBar: React.FC = () => {
                                                 ? `/cart/${cartId}`
                                                 : setting.path
                                     }
-                                    sx={{ textDecoration: 'none', color: 'inherit' }}
+                                    sx={{ textDecoration: 'none', color: 'inherit', display: 'flex', justifyContent:'center' }}
                                 >
+                                    {setting.icon && (
+                                        <Box sx={{ mr: 1 }}>
+                                            {setting.icon}
+                                        </Box>
+                                    )}
                                     {setting.name}
                                 </Typography>
                             </MenuItem>
                         ))}
                     </Menu>
+
                 </Box>
             </Toolbar>
         </AppBar>

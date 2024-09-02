@@ -24,6 +24,7 @@ function App() {
                 <Route path='/item/:id' element={<ItemDetailContainer/>}/>
                 <Route path='/profile/:id' element={<Profile/>}/>
                 <Route path='/logout' element={<Logout/>}/>
+                <Route path='/cart/:id' />
             </Routes>
         </BrowserRouter>
     </>
