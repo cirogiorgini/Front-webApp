@@ -7,24 +7,22 @@ import ItemDetailContainer from './Components/Products/ItemDetail/ItemDetailCont
 import Login from './Auth/Login/Login'
 import Profile from './Components/Users/Profile/Profile'
 import Logout from './Auth/sessions/Logout'
+import CartContainer from './Components/Cart/CartContainer'
 
 
-function App() {
-  
-
+function App() { 
   return (
     <>
-
       <BrowserRouter>
           <AppNavbar/>
             <Routes>
               <Route path='/login' element={<Login/>} />
                 <Route path='/home' element={<ItemListContainer/>}/>
-                <Route path='/dasboardUsers' element={<UsersListContainer/>} /> 
+                <Route path='/dashboard' element={<UsersListContainer/>} /> 
                 <Route path='/item/:id' element={<ItemDetailContainer/>}/>
                 <Route path='/profile/:id' element={<Profile/>}/>
                 <Route path='/logout' element={<Logout/>}/>
-                <Route path='/cart/:id' />
+                <Route path='/cart/:id' element={<CartContainer/>}/>
             </Routes>
         </BrowserRouter>
     </>

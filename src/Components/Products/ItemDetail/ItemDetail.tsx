@@ -1,11 +1,13 @@
-import { Box, CardMedia, CardContent,Typography } from "@mui/material";
+import { Box, CardMedia, CardContent,Typography,Button } from "@mui/material";
 import { Product } from "../../../models/Product.model"
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-interface productProp {
+interface ItemDetailProps{
     product: Product;
+    handleAddToCart: () => Promise<void>;
 }
 
-const ItemDetail: React.FC<productProp> = ({ product }) => {
+const ItemDetail: React.FC<ItemDetailProps> = ({ product, handleAddToCart }) => {
     return (
         <Box
             sx={{
@@ -28,6 +30,7 @@ const ItemDetail: React.FC<productProp> = ({ product }) => {
                     <Typography variant="subtitle1" color="text.secondary">
                         ${product.price}
                     </Typography>
+                    <Button variant="contained" onClick={handleAddToCart}><AddShoppingCartIcon /> Add to cart </Button>
                 </CardContent>
             </Box>
         </Box>

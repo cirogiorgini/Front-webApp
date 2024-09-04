@@ -4,7 +4,7 @@ import { Badge } from '@mui/material';
 const Cart = () => {
   return (
     <Badge badgeContent={2} color="primary">
-        <ShoppingCartIcon />
+        <ShoppingCartIcon/>
     </Badge>
   )
 }
