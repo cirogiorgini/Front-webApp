@@ -1,6 +1,5 @@
 import { Box, CardMedia, CardContent, Typography, Button, CircularProgress  } from "@mui/material";
 import { Product } from "../../../models/Product.model"
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface ItemDetailProps {
     product: Product;
@@ -36,6 +35,7 @@ const ItemDetail: React.FC<ItemDetailProps> = ({ product, handleAddToCart, snack
                         variant="contained"
                         color="primary"
                         onClick={handleAddToCart} 
+                        disabled={!!buttonIcon}
                     >
                         {buttonIcon ? <CircularProgress color="secondary" size={24} /> : "Add to Cart"}
                     </Button>

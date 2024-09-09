@@ -10,8 +10,8 @@ const ItemDetailContainer: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [error, setError] = useState(false);
     const [product, setProduct] = useState<Product | null>(null); 
-    const [isLoading, setIsLoading] = useState(false);
-    const [buttonIcon, setButtonIcon] = useState(false);
+    const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [buttonIcon, setButtonIcon] = useState<Boolean>(false);
     const { user } = useUser(); 
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -48,7 +48,9 @@ const ItemDetailContainer: React.FC = () => {
             }
 
             
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+            await delay(500);
+            
 
             const response = await fetch(`http://localhost:8080/api/carts/${user.cart}/product/${id}`, {
                 method: "POST",
