@@ -3,8 +3,6 @@ import { Product } from "../../../models/Product.model";
 import Loader from "../../Loaders/Loader";
 import ItemList from "./ItemList";
 
-
-
 const ItemListContainer: React.FC = () => {
     const [error, setError] = useState(false);
     const [products, setProducts] = useState<Product[]>([]);

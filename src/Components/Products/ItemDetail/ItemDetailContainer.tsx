@@ -3,14 +3,23 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../../models/Product.model";
 import Loader from "../../Loaders/Loader";
 import ItemDetail from "./ItemDetail";
-import { useUser } from "../../../context/UserContext"
+import { useUser } from "../../../context/UserContext";
+import { Snackbar, Alert } from "@mui/material";
 
 const ItemDetailContainer: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [error, setError] = useState(false);
     const [product, setProduct] = useState<Product | null>(null); 
     const [isLoading, setIsLoading] = useState(false);
+    const [buttonIcon, setButtonIcon] = useState(false);
     const { user } = useUser(); 
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -31,33 +40,51 @@ const ItemDetailContainer: React.FC = () => {
     }, [id]);
 
     const handleAddToCart = async () => {
-        setIsLoading(true);
+        setButtonIcon(true);
 
         try {
             if (!user || !user.cart) {
                 throw new Error("No cart ID found for user");
             }
 
+            
+            await new Promise((resolve) => setTimeout(resolve, 500));
+
             const response = await fetch(`http://localhost:8080/api/carts/${user.cart}/product/${id}`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ quantity: 1 })
+                body: JSON.stringify({ quantity: 1 }),
             });
 
             if (!response.ok) {
                 throw new Error("Failed to add product to cart");
             }
 
-            const productData = await response.json();
-            setProduct(productData);
+            setSnackbarMessage("Product added to cart successfully!");
+            setOpenSnackbar(true);
+
         } catch (error: any) {
             setError(true);
         } finally {
-            setIsLoading(false);
+            setButtonIcon(false);
         }
     };
+
+
+    const snackbar = (
+        <Snackbar
+            open={openSnackbar}
+            autoHideDuration={4000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+            <Alert onClose={handleCloseSnackbar} severity="success">
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
+    );
 
     if (isLoading) {
         return <Loader />;
@@ -73,7 +100,10 @@ const ItemDetailContainer: React.FC = () => {
 
     return (
         <ItemDetail 
-            product={product}       handleAddToCart={handleAddToCart}
+            product={product}       
+            handleAddToCart={handleAddToCart}
+            snackbar={snackbar}
+            buttonIcon={buttonIcon}
         />
     );
 };

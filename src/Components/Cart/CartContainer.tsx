@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Grid, Box, Divider, Button, Typography } from "@mui/material";
+import { Snackbar, Alert } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import Loader from "../Loaders/Loader";
 
 interface Product {
@@ -27,10 +29,13 @@ interface Cart {
     products: CartProduct[];
 }
 
-const CartContainer = () => {
+const CartContainer: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const [error, setError] = useState(false)
     const [cart, setCart] = useState<Cart | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -57,9 +62,9 @@ const CartContainer = () => {
     if (!cart || cart.products.length === 0) {
         return (
             <Box textAlign="center">
-                <Typography variant="h6">El carrito está vacío.</Typography>
+                <Typography variant="h6">Cart is empty.</Typography>
                 <Button variant="contained" href="/home">
-                    Volver a la tienda
+                    Return to home
                 </Button>
             </Box>
         );
@@ -81,8 +86,59 @@ const CartContainer = () => {
         }
     };
 
+    const handleDelete = async ( pid: string ) => {
+        setIsLoading(true);
+
+        try {
+
+            const response = await fetch(`http://localhost:8080/api/carts/${cart._id}/product/${pid}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete product from cart");
+            }
+
+            setSnackbarMessage("Product deleted from the cart successfully!");
+            setOpenSnackbar(true);
+
+            const updatedProducts = cart.products.filter(item => item.product._id !== pid);
+            setCart({ ...cart, products: updatedProducts });
+
+
+        } catch (error: any) {
+            setError(true);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
+    const snackbar = (
+        <Snackbar
+            open={openSnackbar}
+            autoHideDuration={4000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+            <Alert onClose={handleCloseSnackbar} severity="success">
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
+    );
+
+    if (error) {
+        return <div>Something went wrong! please try again.</div>
+    }
+
     return (
-        <Grid container  spacing={45}>
+        <Grid paddingTop={6} container  spacing={45}>
             <Grid item xs={8}>
                 {cart.products.map((item, index) => (
                     <Box key={item._id} sx={{ display: "flex", alignItems: "center", padding: 2 }}>
@@ -91,11 +147,12 @@ const CartContainer = () => {
                             <Typography variant="h6">{item.product.title}</Typography>
                             <Typography variant="body2">Price: ${item.product.price}</Typography>
                             <Box sx={{ display: "flex", gap: 1 }}>
-                                <Button onClick={() => handleDecrement(index)}>-</Button>
+                                <Button size="small" onClick={() => handleDecrement(index)}>-</Button>
                                 <Typography alignContent="center" variant="body1">{item.quantity}</Typography>
-                                <Button onClick={() => handleIncrement(index)}>+</Button>
+                                <Button size="small" onClick={() => handleIncrement(index)}>+</Button>
+                                <Button startIcon={<DeleteIcon />} onClick={() =>handleDelete(item.product._id)}></Button>
                             </Box>
-                        </Box>
+                        </Box> 
                         <Divider />
                     </Box>
                 ))}
@@ -116,6 +173,7 @@ const CartContainer = () => {
                     </Button>
                 </Box>
             </Grid>
+            {snackbar}
         </Grid>
     );
 };
