@@ -4,7 +4,8 @@ export interface Product {
     description: string;
     price: number;
     thumbnail: string;
-    status: boolean;
+    code: string;
+    status: string;
     stock: number;
     category: string;
     owner: string;

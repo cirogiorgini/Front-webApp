@@ -1,39 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Grid, Box, Divider, Button, Typography } from "@mui/material";
+import { Grid, Box, Divider, Button, Typography, CircularProgress } from "@mui/material";
 import { Snackbar, Alert } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Loader from "../Loaders/Loader";
-
-interface Product {
-    _id: string;
-    title: string;
-    description: string;
-    price: number;
-    thumbnail: string;
-    code: string;
-    status: string;
-    stock: number;
-    category: string;
-    owner: string;
-}
-
-interface CartProduct {
-    product: Product;
-    quantity: number;
-    _id: string;
-}
-
-interface Cart {
-    _id: string;
-    products: CartProduct[];
-}
+import { Cart } from "../../models/CartModel";
 
 const CartContainer: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [error, setError] = useState(false)
     const [cart, setCart] = useState<Cart | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [buttonIcon, setButtonIcon] = useState<Boolean>(false)
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -87,7 +65,7 @@ const CartContainer: React.FC = () => {
     };
 
     const handleDelete = async ( pid: string ) => {
-        setIsLoading(true);
+        setButtonIcon(true);
 
         try {
 
@@ -112,7 +90,7 @@ const CartContainer: React.FC = () => {
         } catch (error: any) {
             setError(true);
         } finally {
-            setIsLoading(false);
+            setButtonIcon(false);
         }
     };
 
@@ -150,7 +128,12 @@ const CartContainer: React.FC = () => {
                                 <Button size="small" onClick={() => handleDecrement(index)}>-</Button>
                                 <Typography alignContent="center" variant="body1">{item.quantity}</Typography>
                                 <Button size="small" onClick={() => handleIncrement(index)}>+</Button>
-                                <Button startIcon={<DeleteIcon />} onClick={() =>handleDelete(item.product._id)}></Button>
+                                <Button 
+                                disabled={!!buttonIcon}
+                                onClick={() =>handleDelete(item.product._id)}
+                                >
+                                {buttonIcon ? <CircularProgress color="secondary" size={24}/> :  <DeleteIcon/>}
+                                </Button>
                             </Box>
                         </Box> 
                         <Divider />
